@@ -18,6 +18,9 @@
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23065f46' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         .scroll-smooth { scroll-behavior: smooth; }
+        .gallery-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 scroll-smooth">
@@ -42,8 +45,9 @@
             const navLinks = [
                 { name: "Home", href: "#home" },
                 { name: "About", href: "#about" },
+                { name: "Gallery", href: "#gallery" },
                 { name: "Vision", href: "#vision" },
-                { name: "Get Involved", href: "#join" },
+                { name: "Join", href: "#join" },
             ];
 
             return (
@@ -119,13 +123,19 @@
                             </div>
                         </div>
                         
-                        {/* Hero Image Placeholder - Replace with real image later */}
                         <div className="md:w-1/2 mt-12 md:mt-0 flex justify-center">
                             <div className="relative">
                                 <div className="absolute -inset-4 bg-red-600 rounded-full opacity-20 blur-xl"></div>
-                                <div className="w-64 h-64 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gray-300 flex items-center justify-center relative z-10">
-                                    <i className="fas fa-user text-9xl text-gray-400"></i>
-                                    {/* USER NOTE: Replace the line above with an <img src="monira.jpg" /> tag when you have a photo */}
+                                <div className="w-64 h-64 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gray-800 flex items-center justify-center relative z-10">
+                                    <img 
+                                        src="monira.jpg" 
+                                        alt="Monira Sharmin" 
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            e.target.style.display='none'; 
+                                            e.target.parentElement.innerHTML='<i class="fas fa-user text-9xl text-gray-400"></i>';
+                                        }} 
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -161,10 +171,61 @@
                                     </div>
                                 </div>
                             </div>
-                            <div className="md:w-1/2 grid grid-cols-2 gap-4">
-                                <div className="h-64 bg-slate-200 rounded-lg flex items-center justify-center text-slate-400 transform translate-y-8"><i className="fas fa-bullhorn text-4xl"></i></div>
-                                <div className="h-64 bg-green-100 rounded-lg flex items-center justify-center text-green-400"><i className="fas fa-fist-raised text-4xl"></i></div>
+                             <div className="md:w-1/2">
+                                <div className="relative rounded-lg overflow-hidden shadow-xl h-96 bg-gray-200">
+                                     <img 
+                                        src="gallery4.jpg" 
+                                        alt="Monira Speaking" 
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            e.target.style.display='none'; 
+                                            e.target.parentElement.innerHTML='<div class="h-full flex items-center justify-center text-gray-400"><i class="fas fa-microphone-alt text-6xl"></i></div>';
+                                        }}
+                                    />
+                                    <div className="absolute bottom-0 left-0 w-full p-6 gallery-overlay text-white">
+                                        <p className="font-bold text-lg">"We will not compromise on justice."</p>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // --- NEW GALLERY SECTION ---
+        const Gallery = () => {
+            const images = [
+                { src: "gallery1.jpg", caption: "Strength in Unity", desc: "Marching for a new Bangladesh." },
+                { src: "gallery2.jpg", caption: "With the Farmers", desc: "Ensuring fair prices and dignity for our growers." },
+                { src: "gallery3.jpg", caption: "The Future Generation", desc: "Listening to the students who led the uprising." },
+                { src: "gallery4.jpg", caption: "Leadership", desc: "Speaking truth to power at every opportunity." },
+            ];
+
+            return (
+                <section id="gallery" className="py-20 bg-gray-100">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-bold text-gray-900">Campaign Journey</h2>
+                            <div className="w-16 h-1 bg-red-600 mx-auto mt-4"></div>
+                        </div>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {images.map((img, idx) => (
+                                <div key={idx} className="group relative h-80 rounded-lg overflow-hidden shadow-lg cursor-pointer">
+                                    <img 
+                                        src={img.src} 
+                                        alt={img.caption} 
+                                        className="w-full h-full object-cover transition duration-500 group-hover:scale-110"
+                                        onError={(e) => {
+                                            e.target.src = "https://placehold.co/400x600/e2e8f0/475569?text=Upload+Image";
+                                        }}
+                                    />
+                                    <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                                        <h3 className="text-white font-bold text-xl translate-y-4 group-hover:translate-y-0 transition duration-300">{img.caption}</h3>
+                                        <p className="text-gray-200 text-sm mt-2 translate-y-4 group-hover:translate-y-0 transition duration-300 delay-75">{img.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -192,151 +253,6 @@
             ];
 
             return (
-                <section id="vision" className="py-24 bg-slate-50">
+                <section id="vision" className="py-24 bg-white">
                     <div className="container mx-auto px-6">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
-                            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Vision for Bangladesh</h2>
-                            <p className="text-gray-600 text-lg">The National Citizens Party is not just a party; it is a pledge to rewrite the destiny of our nation.</p>
-                        </div>
-                        
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {points.map((p, idx) => (
-                                <FeatureCard key={idx} {...p} />
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
-        const JoinForm = () => {
-            const [status, setStatus] = useState('idle');
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                setStatus('submitting');
-                // Simulate API call
-                setTimeout(() => setStatus('success'), 1500);
-            };
-
-            return (
-                <section id="join" className="py-24 bg-green-900 relative overflow-hidden">
-                    {/* Decorative Background Elements */}
-                    <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-green-800 opacity-50 blur-3xl"></div>
-                    <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-red-900 opacity-40 blur-3xl"></div>
-
-                    <div className="container mx-auto px-6 relative z-10">
-                        <div className="flex flex-col lg:flex-row items-center gap-16">
-                            
-                            <div className="lg:w-1/2 text-white">
-                                <h2 className="text-4xl md:text-5xl font-bold mb-6">Join the Revolution</h2>
-                                <p className="text-green-100 text-lg mb-8">
-                                    We need volunteers, thinkers, and organizers. Help Monira Sharmin and the NCP build a new future for Bangladesh.
-                                </p>
-                                <ul className="space-y-4">
-                                    <li className="flex items-center gap-3">
-                                        <i className="fas fa-check-circle text-red-500"></i>
-                                        <span>Become a local organizer</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <i className="fas fa-check-circle text-red-500"></i>
-                                        <span>Donate to the cause</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <i className="fas fa-check-circle text-red-500"></i>
-                                        <span>Spread the message digitally</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div className="lg:w-1/2 w-full">
-                                <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-2xl">
-                                    {status === 'success' ? (
-                                        <div className="text-center py-12">
-                                            <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-                                                <i className="fas fa-check"></i>
-                                            </div>
-                                            <h3 className="text-2xl font-bold text-gray-800">Thank You!</h3>
-                                            <p className="text-gray-600 mt-2">We will be in touch shortly.</p>
-                                            <button onClick={() => setStatus('idle')} className="mt-6 text-green-700 font-bold hover:underline">Submit another</button>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <h3 className="text-2xl font-bold text-gray-800 mb-6">Get Involved</h3>
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <label className="block text-sm font-semibold text-gray-700 mb-1">Full Name</label>
-                                                    <input type="text" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition" placeholder="Your Name" />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
-                                                    <input type="email" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition" placeholder="you@example.com" />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
-                                                    <input type="tel" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition" placeholder="017..." />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-semibold text-gray-700 mb-1">How can you help?</label>
-                                                    <select className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition">
-                                                        <option>Volunteer</option>
-                                                        <option>Donation</option>
-                                                        <option>Digital Campaigning</option>
-                                                        <option>Other</option>
-                                                    </select>
-                                                </div>
-                                                <button disabled={status === 'submitting'} type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow-lg transition transform hover:-translate-y-1 mt-2">
-                                                    {status === 'submitting' ? 'Sending...' : 'Join Now'}
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
-        const Footer = () => (
-            <footer className="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
-                <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="text-center md:text-left">
-                        <h4 className="text-white text-xl font-bold mb-2">Monira Sharmin</h4>
-                        <p className="text-sm">National Citizens Party (Jatiya Nagorik Party)</p>
-                    </div>
-                    
-                    <div className="flex space-x-6">
-                        <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-600 hover:text-white flex items-center justify-center transition"><i className="fab fa-facebook-f"></i></a>
-                        <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-sky-500 hover:text-white flex items-center justify-center transition"><i className="fab fa-twitter"></i></a>
-                        <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-pink-600 hover:text-white flex items-center justify-center transition"><i className="fab fa-instagram"></i></a>
-                        <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-red-600 hover:text-white flex items-center justify-center transition"><i className="fab fa-youtube"></i></a>
-                    </div>
-
-                    <div className="text-sm">
-                        &copy; {new Date().getFullYear()} Monira Sharmin. All rights reserved.
-                    </div>
-                </div>
-            </footer>
-        );
-
-        const App = () => {
-            return (
-                <div>
-                    <Navbar />
-                    <Hero />
-                    <About />
-                    <Vision />
-                    <JoinForm />
-                    <Footer />
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
-</body>
-</html>
+                        <div className="text-center max-w-3xl mx
