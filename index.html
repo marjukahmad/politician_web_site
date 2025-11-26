@@ -255,4 +255,32 @@
             return (
                 <section id="vision" className="py-24 bg-white">
                     <div className="container mx-auto px-6">
-                        <div className="text-center max-w-3xl mx
+                        <div className="text-center max-w-3xl mx-auto mb-16">
+                            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Vision for Bangladesh</h2>
+                            <p className="text-gray-600 text-lg">The National Citizens Party is not just a party; it is a pledge to rewrite the destiny of our nation.</p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {points.map((p, idx) => (
+                                <FeatureCard key={idx} {...p} />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const JoinForm = () => {
+            const [status, setStatus] = useState('idle');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setStatus('submitting');
+                // Simulate API call
+                setTimeout(() => setStatus('success'), 1500);
+            };
+
+            return (
+                <section id="join" className="py-24 bg-green-900 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-green-800 opacity-50 blur-3xl"></div>
+                    <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-red-900 opacity-40 blur-3xl"></div>
